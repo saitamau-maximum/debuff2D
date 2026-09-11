@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private SlowDebuff slowDebuff;
+
 
     private Rigidbody2D rb;
 
@@ -100,7 +102,9 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // ダッシュ中なら dashSpeed、それ以外なら moveSpeed
-        float currentSpeed = isDashing ? dashSpeed : moveSpeed;
+        float baseSpeed = isDashing ? dashSpeed : moveSpeed;
+        // Slow デバフの倍率を適用
+        float currentSpeed = baseSpeed * slowDebuff.GetMultiplier();
 
         // 目標の横方向速度
         float targetSpeed = moveInput * currentSpeed;
