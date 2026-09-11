@@ -61,26 +61,40 @@ public class PlayerController : MonoBehaviour
     // Player InputのMoveアクションから呼ばれる
     public void OnMove(InputAction.CallbackContext context)
     {
-    Vector2 input = context.ReadValue<Vector2>();
-    moveInput = input.x;
+        moveInput = context.ReadValue<Vector2>().x;
+    }
+
+    // Send Messagesを使用するシーン用
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>().x;
     }
 
     // Player InputのJumpアクションから呼ばれる
     public void OnJump(InputAction.CallbackContext context)
     {
-      if (context.performed)
-      {
-          jumpRequested = true;
-      }
+        if (context.performed)
+        {
+            jumpRequested = true;
+        }
+    }
+
+    public void OnJump(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            jumpRequested = true;
+        }
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-    bool pressed = context.ReadValueAsButton();
+        isDashing = context.ReadValueAsButton();
+    }
 
-    Debug.Log("押されている？ " + pressed);
-
-    isDashing = pressed;
+    public void OnSprint(InputValue value)
+    {
+        isDashing = value.isPressed;
     }
 
     private void Move()
