@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Coin : MonoBehaviour
 {
     [SerializeField] private int scoreValue = 1; // 獲得できるスコア
 
