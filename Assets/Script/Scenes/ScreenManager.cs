@@ -10,6 +10,11 @@ public class ScreenManager : MonoBehaviour
     {
         SampleScene,
         testScene,
+        Title,
+        Config,
+        Result,
+        ResultList,
+        FloorSelect,
     }
 
     private void Awake()
