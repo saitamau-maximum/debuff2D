@@ -8,6 +8,17 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText; // UIのテキスト
     private int score = 0;
+    public int CoinCount { get; private set; }
+    public bool IsFinished { get; private set; }
+
+    public void FinishStage() => IsFinished = true;
+
+    public void AddCoin(int scoreValue)
+    {
+        if (IsFinished) return;
+        CoinCount++;
+        AddScore(scoreValue);
+    }
 
     private void Awake()
     {
@@ -30,6 +41,7 @@ public class ScoreManager : MonoBehaviour
     Animator anim; // （animationなどは一旦置いておいてシンプルに）
     public void AddScore(int amount)
     {
+        if (IsFinished) return;
         score += amount;
         UpdateScoreText();
     }
