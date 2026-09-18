@@ -13,22 +13,15 @@ public class FloorDifficultySystem : MonoBehaviour
     [Header("Manual Debuff Settings")]
     [SerializeField] private DebuffStacks manualStacks;
 
-    [Header("Current Floor")]
-    [SerializeField] private int currentFloor = 1;
-
     [Header("Debuff References")]
     [SerializeField] private SlowDebuff slowDebuff;
+    
     // 他のデバフも追加可能
     
-
+    private int currentFloor;
     private void Start()
     {
-        ApplyDebuffs();
-    }
-
-    public void SetFloor(int floor)
-    {
-        currentFloor = floor;
+        currentFloor = ScreenManager.Instance.CurrentFloor;
         ApplyDebuffs();
     }
 
@@ -48,7 +41,7 @@ public class FloorDifficultySystem : MonoBehaviour
     {
         DebuffStacks stacks = new DebuffStacks();
 
-        stacks.slow = floor;//いったんは階層が進むごとにslowデバフ
+        stacks.slow = floor - 1;//いったんは階層が進むごとにslowデバフ
 
         return stacks;
     }
