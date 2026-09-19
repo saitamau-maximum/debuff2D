@@ -8,15 +8,18 @@ public class GoalManager : MonoBehaviour
     [Header("イベント")]
     [InspectorName("ゴール時")]
     [SerializeField] private UnityEvent onGoal;
-
-    private void OnEnable()
+    private static GoalManager instance;
+    private void Awake()
     {
-        GoalArea.OnGoalReached += HandleGoal;
+        instance = this;
     }
-
-    private void OnDisable()
+    // GoalArea から呼ばれる静的メソッド
+    public static void NotifyGoalEntered()
     {
-        GoalArea.OnGoalReached -= HandleGoal;
+        if (instance != null)
+        {
+            instance.HandleGoal();
+        }
     }
 
     private void HandleGoal()
