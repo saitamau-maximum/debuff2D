@@ -7,6 +7,21 @@ public class Projectile : MonoBehaviour // クラス名を Projectile に変更
     [SerializeField] private float maxDistance = 15f;    // 射程距離（進める最大距離）
 
     private Vector2 startPosition;
+    private float moveDirection = 1f; // 飛ぶ方向
+
+    // 外部（PlayerShooter）から呼ばれて、飛ぶ方向を決定するメソッド
+    public void SetDirection(float direction)
+    {
+        moveDirection = direction;
+
+        // 弾自体の見た目も左向きのときに反転させたい場合
+        if (moveDirection < 0f)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = -Mathf.Abs(scale.x);
+            transform.localScale = scale;
+        }
+    }
 
     private void Start()
     {
@@ -15,7 +30,7 @@ public class Projectile : MonoBehaviour // クラス名を Projectile に変更
 
     private void Update()
     {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(Vector3.right * speed * Time.deltaTime * moveDirection);
 
         float currentDistance = Vector2.Distance(startPosition, transform.position);
         if (currentDistance >= maxDistance)
@@ -33,6 +48,12 @@ public class Projectile : MonoBehaviour // クラス名を Projectile に変更
             {
                 enemyHealth.TakeDamage(1);
             }
+            Destroy(gameObject);
+        }
+        // 2. 床（Ground）に当たった場合
+        // ※もし床のオブジェクトに "Ground" タグがついているか、レイヤーが "Ground" なら消滅する
+        else if (collision.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
             Destroy(gameObject);
         }
     }

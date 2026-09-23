@@ -20,6 +20,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("見た目の設定")]
+    [SerializeField] private SpriteRenderer spriteRenderer; // プレイヤーの見た目（スプライト）
+
+    [Header("攻撃")]
+    [SerializeField] private PlayerShooter playerShooter;
+
+    // 外部から取得できる「向いている方向」（右なら 1f、左なら -1f）
+    public float FacingDirection { get; private set; } = 1f;
     private Rigidbody2D rb;
 
     // 左右の入力値
@@ -37,6 +45,11 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (playerShooter == null)
+        {
+            playerShooter = GetComponent<PlayerShooter>();
+        }
     }
 
     private void Update()
@@ -48,6 +61,18 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             jumpCount = 0;
+        }
+
+        //追加
+        UpdateFacing();
+
+        // Jキーが押されたら PlayerShooter に発射を命令する
+        if (Keyboard.current != null && Keyboard.current.jKey.wasPressedThisFrame)
+        {
+            if (playerShooter != null)
+            {
+                playerShooter.Shoot();
+            }
         }
     }
 
@@ -154,6 +179,21 @@ public class PlayerController : MonoBehaviour
 
         // ジャンプ入力を消費
         jumpRequested = false;
+    }
+    
+    //追加
+    private void UpdateFacing()
+    {
+        // 入力があった場合のみ向きを更新
+        if (Mathf.Abs(moveInput) > 0.01f)
+        {
+            FacingDirection = Mathf.Sign(moveInput); // 右なら 1、左なら -1
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = (FacingDirection < 0f);
+            }
+        }
     }
 
     private void CheckGround()

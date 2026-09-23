@@ -6,20 +6,29 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab; // 弾のプレハブ
     [SerializeField] private Transform firePoint;        // 発射位置
 
-    private void Update()
+    private PlayerController playerController; // PlayerControllerへの参照
+
+    private void Awake()
     {
-        // Jキーが押されたら弾を生成
-        if (Keyboard.current != null && Keyboard.current.jKey.wasPressedThisFrame)
-        {
-            Shoot();
-        }
+        playerController = GetComponent<PlayerController>();
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         if (projectilePrefab != null && firePoint != null)
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            // 弾を生成
+            GameObject bulletObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+            // PlayerControllerから現在の向きを取得
+            float facingDir = (playerController != null) ? playerController.FacingDirection : 1f;
+
+            // 弾に向きを伝える
+            Projectile projectile = bulletObj.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                projectile.SetDirection(facingDir);
+            }
         }
         else
         {

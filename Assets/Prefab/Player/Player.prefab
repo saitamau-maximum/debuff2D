@@ -333,6 +333,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  spriteRenderer: {fileID: 0}
 --- !u!114 &1367460747006078817
 MonoBehaviour:
   m_ObjectHideFlags: 0
