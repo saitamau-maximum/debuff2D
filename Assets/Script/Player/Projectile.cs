@@ -51,8 +51,8 @@ public class Projectile : MonoBehaviour // クラス名を Projectile に変更
             Destroy(gameObject);
         }
         // 2. 床（Ground）に当たった場合
-        // ※もし床のオブジェクトに "Ground" タグがついているか、レイヤーが "Ground" なら消滅する
-        else if (collision.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        // ※もし床のオブジェクトのレイヤーが "Ground" なら消滅する
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Destroy(gameObject);
         }
