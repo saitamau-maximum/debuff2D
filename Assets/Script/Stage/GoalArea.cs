@@ -3,7 +3,6 @@ using System;
 
 public class GoalArea : MonoBehaviour
 {
-    public static event Action OnGoalReached;
 
     [SerializeField] private GameObject player;
 
@@ -13,12 +12,11 @@ public class GoalArea : MonoBehaviour
     {
         if (goalTriggered) return;
 
-        // プレイヤーがゴール範囲に触れたら発火
+        // プレイヤーがゴール範囲に触れたら通知
         if (collision.gameObject == player)
         {
-            Debug.Log("Goal reached!");
             goalTriggered = true;
-            OnGoalReached?.Invoke();
+            GoalManager.NotifyGoalEntered();
         }
     }
 }
