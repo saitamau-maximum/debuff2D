@@ -6,10 +6,25 @@ public class ScreenManager : MonoBehaviour
     //Singleton（唯一のインスタンス）を保持するための変数
     public static ScreenManager Instance;
 
+    [SerializeField, Min(1)] private int currentFloor = 1;
+    public int CurrentFloor => currentFloor;
+
+    // Call before loading the selected floor (the same scene may serve many floors).
+    public void SelectFloor(int floor)
+    {
+        if (floor < 1) throw new System.ArgumentOutOfRangeException(nameof(floor));
+        currentFloor = floor;
+    }
+
     public enum SceneType//遷移するScene候補
     {
-        SampleScene,
-        testScene,
+        SampleScene = 0,
+        testScene = 1,
+        Title = 2,
+        Config = 3,
+        // Value 4 was the retired Result scene. Keep other serialized values stable.
+        ResultList = 5,
+        FloorSelect = 6,
     }
 
     private void Awake()
@@ -28,6 +43,12 @@ public class ScreenManager : MonoBehaviour
 
     public void ChangeScene(SceneType scene)//Scene遷移の実装
     {
+        if (!System.Enum.IsDefined(typeof(SceneType), scene))
+        {
+            Debug.LogError("Invalid scene selection. Reassign the scene on this button.", this);
+            return;
+        }
+        Time.timeScale = 1f;
         SceneManager.LoadScene(scene.ToString());
     }
 }
