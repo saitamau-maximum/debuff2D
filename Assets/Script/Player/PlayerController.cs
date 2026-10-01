@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     // ジャンプボタンが押されたか
     private bool jumpRequested;
 
+    // 現在乗っている移動床のX方向速度
+    private float currentFloorVelocityX = 0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -132,7 +135,10 @@ public class PlayerController : MonoBehaviour
         float currentSpeed = baseSpeed * slowDebuff.GetMultiplier();
 
         // 目標の横方向速度
-        float targetSpeed = moveInput * currentSpeed;
+        float inputTargetSpeed = moveInput * currentSpeed;
+
+        // (追加） 入力速度に「移動床の速度」を足し合わせる
+        float targetSpeed = inputTargetSpeed + currentFloorVelocityX;
 
         // 地上と空中で加速度を変える
         float acceleration;
@@ -221,5 +227,24 @@ public class PlayerController : MonoBehaviour
             groundCheck.position,
             groundCheckRadius
         );
+    }
+
+    //床に接地しているかの判定
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // ぶつかっているオブジェクトが MoveFloor を持っているかチェック
+        if (collision.gameObject.TryGetComponent<MoveFloor>(out var moveFloor))
+        {
+            currentFloorVelocityX = moveFloor.CurrentVelocity.x;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 移動床から離れたら速度をリセット
+        if (collision.gameObject.TryGetComponent<MoveFloor>(out _))
+        {
+            currentFloorVelocityX = 0f;
+        }
     }
 }
