@@ -15,8 +15,10 @@ GameObject:
   - component: {fileID: 8250498627978296503}
   - component: {fileID: 8744834956696281302}
   - component: {fileID: 1367460747006078817}
+  - component: {fileID: -4049462070439561038}
+  - component: {fileID: -7364844406784067675}
   - component: {fileID: 770064747}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -332,6 +334,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  spriteRenderer: {fileID: 0}
   slowDebuff: {fileID: 770064747}
 --- !u!114 &1367460747006078817
 MonoBehaviour:
@@ -361,6 +364,35 @@ MonoBehaviour:
   onRespawn:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4049462070439561038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266692345449728909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0f7371b1ed32440a305b1c19575d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: {fileID: 0}
+  attackDamage: 1
+  bounceForce: 5
+--- !u!114 &-7364844406784067675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266692345449728909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcce8b2cba2e8849b7cac501a012821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 1833007446003028244, guid: 6855ca5114a8d83488ac0ca2eea952cc, type: 3}
+  firePoint: {fileID: 0}
 --- !u!1 &4882919324462063551
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8852012562991235035}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
