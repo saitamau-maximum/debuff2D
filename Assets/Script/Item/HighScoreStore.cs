@@ -60,6 +60,38 @@ public static class HighScoreStore
         return entry != null;
     }
 
+    public readonly struct FloorScore
+    {
+        public int Floor { get; }
+        public int Score { get; }
+
+        public FloorScore(int floor, int score)
+        {
+            Floor = floor;
+            Score = score;
+        }
+    }
+
+    // Read once for the whole list, rather than opening the file for every floor.
+    public static List<FloorScore> GetBestScores(string playerId)
+    {
+        if (string.IsNullOrWhiteSpace(playerId))
+            throw new ArgumentException("Player ID is required.", nameof(playerId));
+
+        var bestByFloor = new SortedDictionary<int, int>();
+        foreach (var entry in Read().entries)
+        {
+            if (entry == null || entry.playerId != playerId || entry.floor < 1) continue;
+            if (!bestByFloor.TryGetValue(entry.floor, out int best) || entry.score > best)
+                bestByFloor[entry.floor] = entry.score;
+        }
+
+        var scores = new List<FloorScore>(bestByFloor.Count);
+        foreach (var pair in bestByFloor)
+            scores.Add(new FloorScore(pair.Key, pair.Value));
+        return scores;
+    }
+
     public static bool SaveIfHigher(string playerId, int floor, int score)
     {
         ValidateKey(playerId, floor);
