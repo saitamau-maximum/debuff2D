@@ -19,7 +19,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
+
+    [Header("デバフ参照スクリプト")]
     [SerializeField] private SlowDebuff slowDebuff;
+    [SerializeField] private JumpDebuff jumpDebuff;
+    [SerializeField] private LimmitJump limmitJump;
 
 
     [Header("見た目の設定")]
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour
         {
             playerShooter = GetComponent<PlayerShooter>();
         }
+        maxJumpCount = limmitJump.LimmitMaxJumpCount();
     }
 
     private void Update()
@@ -173,10 +178,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        float currentJumpPower = jumpPower * jumpDebuff.GetMultiplier();
         // 上方向の速度を設定
         rb.linearVelocity = new Vector2(
             rb.linearVelocity.x,
-            jumpPower
+            currentJumpPower
         );
 
         jumpCount++;
