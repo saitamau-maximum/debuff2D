@@ -1,19 +1,15 @@
 using UnityEngine;
 
-public class SlowDebuff : MonoBehaviour
+public class JumpDebuff : MonoBehaviour
 {
-    [Header("Slow Debuff Settings")]
+    [Header("Jump Debuff Settings")]
     [SerializeField] private float multiplierPerStack = 0.9f;
 
     private int currentStacks = 0;
-
-    // FloorDifficultySystem から呼ばれる
     public void Apply(int stacks)
     {
         currentStacks = stacks;
     }
-
-    // PlayerController が毎フレーム参照する
     public float GetMultiplier()
     {
         return Mathf.Pow(multiplierPerStack, currentStacks);
