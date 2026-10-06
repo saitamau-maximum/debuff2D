@@ -1410,11 +1410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7353db21b28672448f482fe288bd152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &770064753 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 7085272130476028315, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
-  m_PrefabInstance: {fileID: 5271206885289990082}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &770064756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1427,6 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4adbd36a5f2be418cce15add84c803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: {fileID: 770064759}
 --- !u!114 &770064757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1440,6 +1436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplierPerStack: 0.9
+  playerStatus: {fileID: 770064759}
 --- !u!114 &770064758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,8 +1450,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AddPerStack: 0.5
-  baseGravityScale: 3
-  playerGravity: {fileID: 770064753}
+  playerStatus: {fileID: 770064759}
+--- !u!114 &770064759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770064739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f621d71e6f6ca4f9765d16cca77b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMoveSpeed: 6
+  baseDashSpeed: 12
+  baseGroundAcceleration: 40
+  baseAirAcceleration: 20
+  baseJumpPower: 12
+  baseMaxJumpCount: 2
+  baseGravity: 3
+--- !u!114 &770064760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -7364844406784067675, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
+  m_PrefabInstance: {fileID: 5271206885289990082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770064739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcce8b2cba2e8849b7cac501a012821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &969886000
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,6 +3199,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3757532634196720699, guid: 8f2c9297ede4287459a5a69986d15787, type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 770064759}
+    - target: {fileID: 3757532634196720699, guid: 8f2c9297ede4287459a5a69986d15787, type: 3}
+      propertyPath: fallDebuff
+      value: 
+      objectReference: {fileID: 770064758}
+    - target: {fileID: 3757532634196720699, guid: 8f2c9297ede4287459a5a69986d15787, type: 3}
       propertyPath: jumpdebuff
       value: 
       objectReference: {fileID: 770064757}
@@ -3397,6 +3431,10 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 1413867977}
+    - target: {fileID: 770064747, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
+      propertyPath: playerStatus
+      value: 
+      objectReference: {fileID: 770064759}
     - target: {fileID: 266692345449728909, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3446,6 +3484,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1241024997}
     - target: {fileID: 8744834956696281302, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 770064759}
+    - target: {fileID: 8744834956696281302, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
       propertyPath: jumpDebuff
       value: 
       objectReference: {fileID: 770064757}
@@ -3453,6 +3495,10 @@ PrefabInstance:
       propertyPath: limmitJump
       value: 
       objectReference: {fileID: 770064756}
+    - target: {fileID: 8744834956696281302, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
+      propertyPath: playerShooter
+      value: 
+      objectReference: {fileID: 770064760}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -3469,6 +3515,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 266692345449728909, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 770064758}
+    - targetCorrespondingSourceObject: {fileID: 266692345449728909, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 770064759}
   m_SourcePrefab: {fileID: 100100000, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
 --- !u!1001 &5543909176690789296
 PrefabInstance:

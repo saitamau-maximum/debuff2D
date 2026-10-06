@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,7 +10,7 @@ public class DebuffStacks
 }
 public class FloorDifficultySystem : MonoBehaviour
 {
-    [Header("Mode Settings")]
+    [Header("Floor Debuff Calculate Mode Settings")]
     [SerializeField] private bool useAutoGenerate = true;
 
     [Header("Manual Debuff Settings")]
@@ -22,6 +21,7 @@ public class FloorDifficultySystem : MonoBehaviour
     [SerializeField] private JumpDebuff jumpdebuff;
     [SerializeField] private LimmitJump limmitJump;
     [SerializeField] private FallAccelarate fallDebuff;
+    [SerializeField] private PlayerStatus status;
     
     
     // 他のデバフも追加可能
@@ -39,14 +39,23 @@ public class FloorDifficultySystem : MonoBehaviour
             ? GenerateStacks(currentFloor)
             : manualStacks;
 
-        if (slowDebuff != null)
+        if (slowDebuff != null){
             slowDebuff.Apply(stacks.slow);
-        if (jumpdebuff != null)
+            slowDebuff.ChangeStatus();
+            
+        }
+        if (jumpdebuff != null){
             jumpdebuff.Apply(stacks.jump);
-        if (limmitJump != null)
+            jumpdebuff.ChangeStatus();
+        }
+        if (limmitJump != null){
             limmitJump.Apply(stacks.jumpCount);
-        if (fallDebuff != null)
+            limmitJump.ChangeStatus();
+        }
+        if (fallDebuff != null){
             fallDebuff.Apply(stacks.fallAccelaration);
+            fallDebuff.ChangeStatus();
+        }
 
     }
 
