@@ -40,24 +40,29 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = status.Gravity;
 
         if (playerShooter == null)
         {
             playerShooter = GetComponent<PlayerShooter>();
         }
     }
+    private void Start()
+    {
+        rb.gravityScale = status.Gravity;
+    }
 
     private void Update()
     {
         // 地面にいるかを毎フレーム確認
         CheckGround();
+        
 
         // 地面に着いたらジャンプ回数を戻す
         if (isGrounded)
         {
             jumpCount = 0;
         }
+        
 
         //追加
         UpdateFacing();
