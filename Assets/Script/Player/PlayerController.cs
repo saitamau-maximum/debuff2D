@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
     // 現在乗っている移動床のX方向速度
     private float currentFloorVelocityX = 0f;
 
+    //跳ねるギミックを使用済みかどうか
+    public bool canBounceBoost = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -66,6 +69,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             jumpCount = 0;
+            //跳ねるギミックも復活
+            canBounceBoost = true;
         }
 
         //追加
