@@ -6,19 +6,21 @@ public class TimerManager : MonoBehaviour
     [SerializeField] private float timeLimit = 60f;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private Transform player;
+    [SerializeField] private Health health;
 
     private float remainingTime;
-    private bool timeUpHandled = false;
-    private Vector3 respawnPosition;
+    private bool timeUpHandled;
 
     void Start()
     {
-        remainingTime = timeLimit;
-
-        // ゲーム開始時のPlayerの位置を記録
-        respawnPosition = player.position;
+        InitializeTimerValiable();
 
         UpdateTimeText();
+    }
+    void InitializeTimerValiable()
+    {
+        remainingTime = timeLimit;
+        timeUpHandled = false;
     }
 
     void Update()
@@ -50,16 +52,9 @@ public class TimerManager : MonoBehaviour
     private void TimeUp()
     {
         Debug.Log("時間切れ！");
-
-        // Playerを最初の位置に戻す
-        player.position = respawnPosition;
-
-        // Playerの速度を止める
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        //死亡＆リスポーン処理
+        health.Kill();
+        //再初期化
+        InitializeTimerValiable();
     }
 }
