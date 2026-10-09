@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -4049462070439561038}
   - component: {fileID: -7364844406784067675}
   - component: {fileID: 770064747}
+  - component: {fileID: 6239985552194713841}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -334,8 +335,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  spriteRenderer: {fileID: 0}
   slowDebuff: {fileID: 770064747}
+  spriteRenderer: {fileID: 0}
+  playerShooter: {fileID: 0}
 --- !u!114 &1367460747006078817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +395,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1833007446003028244, guid: 6855ca5114a8d83488ac0ca2eea952cc, type: 3}
   firePoint: {fileID: 0}
+--- !u!114 &770064747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266692345449728909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7353db21b28672448f482fe288bd152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplierPerStack: 0.8
+--- !u!114 &6239985552194713841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266692345449728909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961cc6ebcfc93c344920a774c5e62c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallThresholdY: -20
+  playerHealth: {fileID: 1367460747006078817}
 --- !u!1 &4882919324462063551
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,16 +453,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 268977528130764177}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &770064747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266692345449728909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7353db21b28672448f482fe288bd152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  multiplierPerStack: 0.8
