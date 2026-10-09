@@ -4,10 +4,13 @@ using UnityEngine;
 public class DebuffStacks
 {
     public int slow = 0;
+    public int jump = 0;
+    public int jumpCount = 2;
+    public int fallAccelaration = 0;
 }
 public class FloorDifficultySystem : MonoBehaviour
 {
-    [Header("Mode Settings")]
+    [Header("Floor Debuff Calculate Mode Settings")]
     [SerializeField] private bool useAutoGenerate = true;
 
     [Header("Manual Debuff Settings")]
@@ -15,6 +18,11 @@ public class FloorDifficultySystem : MonoBehaviour
 
     [Header("Debuff References")]
     [SerializeField] private SlowDebuff slowDebuff;
+    [SerializeField] private JumpDebuff jumpdebuff;
+    [SerializeField] private LimmitJump limmitJump;
+    [SerializeField] private FallAccelarate fallDebuff;
+    [SerializeField] private PlayerStatus status;
+    
     
     // 他のデバフも追加可能
     
@@ -31,8 +39,23 @@ public class FloorDifficultySystem : MonoBehaviour
             ? GenerateStacks(currentFloor)
             : manualStacks;
 
-        // Slow デバフ適用
-        slowDebuff.Apply(stacks.slow);
+        if (slowDebuff != null){
+            slowDebuff.Apply(stacks.slow);
+            slowDebuff.ChangeStatus();
+            
+        }
+        if (jumpdebuff != null){
+            jumpdebuff.Apply(stacks.jump);
+            jumpdebuff.ChangeStatus();
+        }
+        if (limmitJump != null){
+            limmitJump.Apply(stacks.jumpCount);
+            limmitJump.ChangeStatus();
+        }
+        if (fallDebuff != null){
+            fallDebuff.Apply(stacks.fallAccelaration);
+            fallDebuff.ChangeStatus();
+        }
 
     }
 
@@ -41,7 +64,10 @@ public class FloorDifficultySystem : MonoBehaviour
     {
         DebuffStacks stacks = new DebuffStacks();
 
-        stacks.slow = floor - 1;//いったんは階層が進むごとにslowデバフ
+        stacks.slow = floor / 2;
+        stacks.jump = (floor + 1) / 4;
+        stacks.fallAccelaration = (floor + 1) / 4;
+        stacks.jumpCount = (2 - (floor / 64)) > 0 ? 2 - (floor / 64) : 0;
 
         return stacks;
     }

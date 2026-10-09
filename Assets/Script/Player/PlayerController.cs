@@ -4,22 +4,15 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("移動")]
-    [SerializeField] private float moveSpeed = 6f;
-    [SerializeField] private float dashSpeed = 12f;
     private bool isDashing = false;
-    [SerializeField] private float groundAcceleration = 40f;
-    [SerializeField] private float airAcceleration = 20f;
-
-    [Header("ジャンプ")]
-    [SerializeField] private float jumpPower = 12f;
-    [SerializeField] private int maxJumpCount = 2;
 
     [Header("接地判定")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private SlowDebuff slowDebuff;
+
+    [Header("ステータス参照")]
+    [SerializeField] private PlayerStatus status;
 
 
     [Header("見た目の設定")]
@@ -56,17 +49,23 @@ public class PlayerController : MonoBehaviour
             playerShooter = GetComponent<PlayerShooter>();
         }
     }
+    private void Start()
+    {
+        rb.gravityScale = status.Gravity;
+    }
 
     private void Update()
     {
         // 地面にいるかを毎フレーム確認
         CheckGround();
+        
 
         // 地面に着いたらジャンプ回数を戻す
         if (isGrounded)
         {
             jumpCount = 0;
         }
+        
 
         //追加
         UpdateFacing();
@@ -129,10 +128,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        // ダッシュ中なら dashSpeed、それ以外なら moveSpeed
-        float baseSpeed = isDashing ? dashSpeed : moveSpeed;
-        // Slow デバフの倍率を適用
-        float currentSpeed = baseSpeed * slowDebuff.GetMultiplier();
+        // ダッシュ中なら DashSpeed、それ以外なら MoveSpeed
+        float currentSpeed = isDashing ? status.DashSpeed : status.MoveSpeed;
 
         // 目標の横方向速度
         float inputTargetSpeed = moveInput * currentSpeed;
@@ -145,11 +142,11 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            acceleration = groundAcceleration;
+            acceleration = status.GroundAcceleration;
         }
         else
         {
-            acceleration = airAcceleration;
+            acceleration = status.AirAcceleration;
         }
 
         // 現在の横方向速度を目標速度へ近づける
@@ -173,7 +170,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 最大ジャンプ回数を超えていたら何もしない
-        if (jumpCount >= maxJumpCount)
+        if (jumpCount >= status.MaxJumpCount)
         {
             jumpRequested = false;
             return;
@@ -182,7 +179,7 @@ public class PlayerController : MonoBehaviour
         // 上方向の速度を設定
         rb.linearVelocity = new Vector2(
             rb.linearVelocity.x,
-            jumpPower
+            status.JumpPower
         );
 
         jumpCount++;
