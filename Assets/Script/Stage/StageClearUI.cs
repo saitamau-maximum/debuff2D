@@ -8,11 +8,13 @@ public class StageClearUI : MonoBehaviour
     [SerializeField] private GameObject stageClearText;
     [SerializeField, Min(0f)] private float stageClearDuration = 2f;
     [SerializeField] private GameObject resultPanel;
-    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text totalScoreText;
+    [SerializeField] private TMP_Text coinScoreText;
+    [SerializeField] private TMP_Text TimeScoreText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private TMP_Text statusText;
     private bool isShowing;
-    public bool IsConfigured => resultPanel != null && scoreText != null && highScoreText != null
+    public bool IsConfigured => resultPanel != null && totalScoreText != null && highScoreText != null
         && resultPanel != gameObject && !transform.IsChildOf(resultPanel.transform);
 
     private void Awake()
@@ -23,7 +25,7 @@ public class StageClearUI : MonoBehaviour
             resultPanel.SetActive(false);
     }
 
-    public void Show(int score, int? previousBestScore, bool isNewBest, bool saveFailed)
+    public void Show(int coinScore, int timeScore, int totalScore, int? previousBestScore, bool isNewBest, bool saveFailed)
     {
         if (isShowing) return;
         if (!IsConfigured)
@@ -32,8 +34,10 @@ public class StageClearUI : MonoBehaviour
             return;
         }
         resultPanel.SetActive(false);
-        scoreText.text = "Score: " + score;
-        highScoreText.text = "High Score: " + (previousBestScore.HasValue ? previousBestScore.Value.ToString() : "--");
+        coinScoreText.text = "COIN SCORE: " + coinScore;
+        TimeScoreText.text = "TIME SCORE: " + timeScore;
+        totalScoreText.text = "TOTAL SCORE: " + totalScore;
+        highScoreText.text = "HIGH SCORE: " + (previousBestScore.HasValue ? previousBestScore.Value.ToString() : "--");
         if (statusText != null)
             statusText.text = saveFailed ? "Save failed" : isNewBest ? "New High Score!" : "";
         isShowing = true;

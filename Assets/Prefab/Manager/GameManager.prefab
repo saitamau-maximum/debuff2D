@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 721360658740255374}
   - component: {fileID: 5157938541898221546}
   - component: {fileID: -8859137058429041922}
+  - component: {fileID: 294256806394562697}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5fd1d24a8341149a844872ecedcbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultUI: {fileID: 0}
   onGoal:
     m_PersistentCalls:
       m_Calls:
@@ -73,3 +75,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+--- !u!114 &294256806394562697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2878767298433010159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4a13f049bb75d49bbfec21501ddfa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeLimit: 60
+  timeText: {fileID: 0}
+  health: {fileID: 0}

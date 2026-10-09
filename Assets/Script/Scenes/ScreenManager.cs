@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class ScreenManager : MonoBehaviour
 {
     //Singleton（唯一のインスタンス）を保持するための変数
-    public static ScreenManager Instance;
+    public static ScreenManager Instance { get ; private set;}
 
     [SerializeField, Min(1)] private int currentFloor = 1;
     public int CurrentFloor => currentFloor;

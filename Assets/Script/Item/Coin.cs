@@ -3,7 +3,6 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     private bool collected;
-    [SerializeField] private int scoreValue = 1; // 獲得できるスコア
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,7 +11,7 @@ public class Coin : MonoBehaviour
         {
             //スコア加算
             collected = true;
-            ScoreManager.Instance.AddCoin(scoreValue);
+            ScoreManager.Instance.AddCoin();
 
             // アイテムオブジェクトを消去
             Destroy(gameObject);
