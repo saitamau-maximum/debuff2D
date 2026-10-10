@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7328509232732854223}
   - component: {fileID: 6077216174776047893}
   - component: {fileID: 6772055726906904722}
+  - component: {fileID: -3462931167138214830}
   m_Layer: 8
   m_Name: SimpleMoveEnemy
   m_TagString: Enemy
@@ -205,3 +206,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &-3462931167138214830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2678474021457613025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f265ee46396ae14296a7887dfefa008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1

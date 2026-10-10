@@ -22,6 +22,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SlowDebuff slowDebuff;
 
 
+    [Header("見た目の設定")]
+    [SerializeField] private SpriteRenderer spriteRenderer; // プレイヤーの見た目（スプライト）
+
+    [Header("攻撃")]
+    [SerializeField] private PlayerShooter playerShooter;
+
+    // 外部から取得できる「向いている方向」（右なら 1f、左なら -1f）
+    public float FacingDirection { get; private set; } = 1f;
     private Rigidbody2D rb;
 
     // 左右の入力値
@@ -36,9 +44,17 @@ public class PlayerController : MonoBehaviour
     // ジャンプボタンが押されたか
     private bool jumpRequested;
 
+    // 現在乗っている移動床のX方向速度
+    private float currentFloorVelocityX = 0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (playerShooter == null)
+        {
+            playerShooter = GetComponent<PlayerShooter>();
+        }
     }
 
     private void Update()
@@ -50,6 +66,18 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             jumpCount = 0;
+        }
+
+        //追加
+        UpdateFacing();
+
+        // Jキーが押されたら PlayerShooter に発射を命令する
+        if (Keyboard.current != null && Keyboard.current.jKey.wasPressedThisFrame)
+        {
+            if (playerShooter != null)
+            {
+                playerShooter.Shoot();
+            }
         }
     }
 
@@ -107,7 +135,10 @@ public class PlayerController : MonoBehaviour
         float currentSpeed = baseSpeed * slowDebuff.GetMultiplier();
 
         // 目標の横方向速度
-        float targetSpeed = moveInput * currentSpeed;
+        float inputTargetSpeed = moveInput * currentSpeed;
+
+        // (追加） 入力速度に「移動床の速度」を足し合わせる
+        float targetSpeed = inputTargetSpeed + currentFloorVelocityX;
 
         // 地上と空中で加速度を変える
         float acceleration;
@@ -159,6 +190,21 @@ public class PlayerController : MonoBehaviour
         // ジャンプ入力を消費
         jumpRequested = false;
     }
+    
+    //追加
+    private void UpdateFacing()
+    {
+        // 入力があった場合のみ向きを更新
+        if (Mathf.Abs(moveInput) > 0.01f)
+        {
+            FacingDirection = Mathf.Sign(moveInput); // 右なら 1、左なら -1
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = (FacingDirection < 0f);
+            }
+        }
+    }
 
     private void CheckGround()
     {
@@ -181,5 +227,24 @@ public class PlayerController : MonoBehaviour
             groundCheck.position,
             groundCheckRadius
         );
+    }
+
+    //床に接地しているかの判定
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // ぶつかっているオブジェクトが MoveFloor を持っているかチェック
+        if (collision.gameObject.TryGetComponent<MoveFloor>(out var moveFloor))
+        {
+            currentFloorVelocityX = moveFloor.CurrentVelocity.x;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 移動床から離れたら速度をリセット
+        if (collision.gameObject.TryGetComponent<MoveFloor>(out _))
+        {
+            currentFloorVelocityX = 0f;
+        }
     }
 }
