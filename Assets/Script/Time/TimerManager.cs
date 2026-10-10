@@ -52,7 +52,7 @@ public class TimerManager : MonoBehaviour
         }
     }
 
-    private void ResetTimer()
+    public void ResetTimer()
     {
         startTime = Time.time;
         timeUpHandled = false;

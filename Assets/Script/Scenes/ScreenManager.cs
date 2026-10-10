@@ -19,12 +19,10 @@ public class ScreenManager : MonoBehaviour
     public enum SceneType//遷移するScene候補
     {
         SampleScene = 0,
-        testScene = 1,
-        Title = 2,
-        Config = 3,
-        // Value 4 was the retired Result scene. Keep other serialized values stable.
-        ResultList = 5,
-        FloorSelect = 6,
+        Title = 1,
+        Config = 2,
+        ResultList = 3,
+        FloorSelect = 4,
     }
 
     private void Awake()
