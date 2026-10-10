@@ -63,6 +63,5 @@ public class TimerManager : MonoBehaviour
     {
         Debug.Log("時間切れ！");
         health.Kill();
-        ResetTimer();
     }
 }
