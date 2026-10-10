@@ -8,17 +8,24 @@ public class GoalManager : MonoBehaviour
     [Header("イベント")]
     [InspectorName("ゴール時")]
     [SerializeField] private UnityEvent onGoal;
-    private static GoalManager instance;
+    public static GoalManager Instance { get ; private set;}
     private void Awake()
     {
-        instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     // GoalArea から呼ばれる静的メソッド
     public static void NotifyGoalEntered()
     {
-        if (instance != null)
+        if (Instance != null)
         {
-            instance.HandleGoal();
+            Instance.HandleGoal();
         }
     }
 
@@ -31,8 +38,11 @@ public class GoalManager : MonoBehaviour
             return;
         }
         handledGoal = true;
-        int score = StageScoreCalculator.Calculate(ScoreManager.Instance.CoinCount);
+        int totalScore = StageScoreCalculator.TotalScoreCalculate(ScoreManager.Instance.CoinCount, TimerManager.Instance.remainTime);
+        int coinScore = StageScoreCalculator.CoinScoreCalculate(ScoreManager.Instance.CoinCount);
+        int timeScore = StageScoreCalculator.TimeScoreCalcurate(TimerManager.Instance.remainTime);
         ScoreManager.Instance.FinishStage();
+        TimerManager.Instance.StopTimer();
         int? previousBestScore = null;
         bool isNewBest = false;
         bool saveFailed = false;
@@ -43,7 +53,7 @@ public class GoalManager : MonoBehaviour
             if (HighScoreStore.TryGetBest(playerId, floor, out int previousBest))
                 previousBestScore = previousBest;
             // 保存は更新するが、表示には今回のクリア前の最高値を使う。
-            isNewBest = HighScoreStore.SaveIfHigher(playerId, floor, score);
+            isNewBest = HighScoreStore.SaveIfHigher(playerId, floor, totalScore);
         }
         catch (System.Exception exception)
         {
@@ -51,7 +61,7 @@ public class GoalManager : MonoBehaviour
             Debug.LogError("Failed to save the stage high score.", this);
             Debug.LogException(exception, this);
         }
-        resultUI.Show(score, previousBestScore, isNewBest, saveFailed);
+        resultUI.Show(coinScore, timeScore, totalScore, previousBestScore, isNewBest, saveFailed);
         // Inspector から設定できるイベントを発火
         onGoal?.Invoke();
     }
