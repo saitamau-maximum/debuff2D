@@ -35,6 +35,7 @@ public class FloorDifficultySystem : MonoBehaviour
 
     public void ApplyDebuffs()
     {
+        status.ResetToBaseValues();
         DebuffStacks stacks = useAutoGenerate
             ? GenerateStacks(currentFloor)
             : manualStacks;

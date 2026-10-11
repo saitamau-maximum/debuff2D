@@ -10,7 +10,7 @@ public class SlowDebuff : MonoBehaviour
     private float moveSpeed;
     private float dashSpeed;
 
-    // FloorDifficultySystem から呼ばれる
+    // 全メソッドはFloorDifficultySystem から呼ばれる(それ以外から呼ぶの禁止)
     public void Apply(int stacks)
     {
         currentStacks = stacks;
@@ -27,11 +27,5 @@ public class SlowDebuff : MonoBehaviour
             playerStatus.JumpPower,
             playerStatus.MaxJumpCount,
             playerStatus.Gravity);
-    }
-
-    // PlayerController が毎フレーム参照する
-    public float GetMultiplier()
-    {
-        return Mathf.Pow(multiplierPerStack, currentStacks);
     }
 }

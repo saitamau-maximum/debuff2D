@@ -8,6 +8,7 @@ public class JumpDebuff : MonoBehaviour
     private float jumpPower;
 
     private int currentStacks = 0;
+    // 全メソッドはFloorDifficultySystem から呼ばれる(それ以外から呼ぶの禁止)
     public void Apply(int stacks)
     {
         currentStacks = stacks;

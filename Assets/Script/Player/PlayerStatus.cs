@@ -37,7 +37,7 @@ public class PlayerStatus : MonoBehaviour
         ResetToBaseValues();
     }
 
-    private void ResetToBaseValues()
+    public void ResetToBaseValues()
     {
         MoveSpeed = baseMoveSpeed;
         DashSpeed = baseDashSpeed;

@@ -9,7 +9,7 @@ public class FallAccelarate : MonoBehaviour
     private int currentStacks = 0;
     private float gravity;
 
-    // FloorDifficultySystem から呼ばれる
+    // 全メソッドはFloorDifficultySystem から呼ばれる(それ以外から呼ぶの禁止)
     public void Apply(int stacks)
     {
         currentStacks = stacks;
