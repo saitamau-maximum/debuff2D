@@ -3406,7 +3406,7 @@ PrefabInstance:
       objectReference: {fileID: 770064747}
     - target: {fileID: 3757532634196720699, guid: 8f2c9297ede4287459a5a69986d15787, type: 3}
       propertyPath: useAutoGenerate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3757532634196720699, guid: 8f2c9297ede4287459a5a69986d15787, type: 3}
       propertyPath: manualStacks.jump

@@ -49,10 +49,6 @@ public class PlayerController : MonoBehaviour
             playerShooter = GetComponent<PlayerShooter>();
         }
     }
-    private void Start()
-    {
-        rb.gravityScale = status.Gravity;
-    }
 
     private void Update()
     {
@@ -85,6 +81,9 @@ public class PlayerController : MonoBehaviour
         Move();
 
         Jump();
+        //重力適用
+        if (!isGrounded)
+            rb.gravityScale = status.Gravity;
     }
 
     // Player InputのMoveアクションから呼ばれる
