@@ -3705,10 +3705,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1246138308065212703, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 5271206885289990083}
     - target: {fileID: 1367460747006078817, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
       propertyPath: respawnPoint
       value: 
@@ -3717,18 +3713,6 @@ PrefabInstance:
       propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 809436613}
-    - target: {fileID: 2102317928262526889, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 5271206885289990083}
-    - target: {fileID: 4222412136097626775, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 5271206885289990083}
-    - target: {fileID: 8744834956696281302, guid: d57e2cf7d9ef02e4db0bfd03f5acde3f, type: 3}
-      propertyPath: status
-      value: 
-      objectReference: {fileID: 5271206885289990083}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

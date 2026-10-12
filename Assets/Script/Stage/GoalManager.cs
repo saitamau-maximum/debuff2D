@@ -38,11 +38,11 @@ public class GoalManager : MonoBehaviour
             return;
         }
         handledGoal = true;
+        TimerManager.Instance.StopTimer();
         int totalScore = StageScoreCalculator.TotalScoreCalculate(ScoreManager.Instance.CoinCount, TimerManager.Instance.remainTime);
         int coinScore = StageScoreCalculator.CoinScoreCalculate(ScoreManager.Instance.CoinCount);
         int timeScore = StageScoreCalculator.TimeScoreCalcurate(TimerManager.Instance.remainTime);
         ScoreManager.Instance.FinishStage();
-        TimerManager.Instance.StopTimer();
         int? previousBestScore = null;
         bool isNewBest = false;
         bool saveFailed = false;

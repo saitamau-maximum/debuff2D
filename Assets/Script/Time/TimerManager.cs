@@ -29,18 +29,22 @@ public class TimerManager : MonoBehaviour
 
     void Update()
     {
-        if(!goaled){
-            float elapsed = Time.time - startTime;
-            remainTime = Mathf.Max(0f, timeLimit - elapsed);
+        if(goaled) return;
 
-            timeText.text = "Time: " + Mathf.CeilToInt(remainTime);
+        float elapsed = Time.time - startTime;
+        remainTime = Mathf.Max(0f, timeLimit - elapsed);
 
-            if (remainTime <= 0f && !timeUpHandled)
-            {
-                timeUpHandled = true;
-                TimeUp();
-            }
+        timeText.text = "Time: " + Mathf.CeilToInt(remainTime);
+
+        if (remainTime <= 0f && !timeUpHandled)
+        {
+            timeUpHandled = true;
+            TimeUp();
         }
+    }
+    private void RefreshRemainingTime()
+    {
+        
     }
 
     public void StopTimer()
