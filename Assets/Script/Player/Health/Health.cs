@@ -102,6 +102,7 @@ public class Health : MonoBehaviour
         }
 
         currentHealth = 0;
+        PlayerStatus.Instance.ResetToBaseValues();
         NotifyHealthChanged();
         StartCoroutine(RespawnRoutine());
     }

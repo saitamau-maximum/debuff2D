@@ -6,18 +6,19 @@ public class ScoreManager : MonoBehaviour
     // シーン内でどこからでも呼び出せるようにする（シングルトン）
     public static ScoreManager Instance { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI scoreText; // UIのテキスト
+    [SerializeField] private TextMeshProUGUI coinText; // UIのテキスト
     private int score = 0;
     public int CoinCount { get; private set; }
     public bool IsFinished { get; private set; }
 
     public void FinishStage() => IsFinished = true;
 
-    public void AddCoin(int scoreValue)
+    public void AddCoin()
     {
         if (IsFinished) return;
         CoinCount++;
-        AddScore(scoreValue);
+        UpdateCoinText();
+        AddScore();
     }
 
     private void Awake()
@@ -34,23 +35,22 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateScoreText();
+        UpdateCoinText();
     }
 
     // スコアを加算するメソッド
     Animator anim; // （animationなどは一旦置いておいてシンプルに）
-    public void AddScore(int amount)
+    public void AddScore()
     {
         if (IsFinished) return;
-        score += amount;
-        UpdateScoreText();
+        score = StageScoreCalculator.CoinScoreCalculate(CoinCount);
     }
 
-    private void UpdateScoreText()
+    private void UpdateCoinText()
     {
-        if (scoreText != null)
+        if (coinText != null)
         {
-            scoreText.text = "Score: " + score;
+            coinText.text = "Coin: " + CoinCount;
         }
     }
 }
