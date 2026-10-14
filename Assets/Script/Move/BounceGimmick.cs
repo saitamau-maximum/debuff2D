@@ -19,7 +19,7 @@ public class BounceGimmick : MonoBehaviour
                 Vector2 surfaceNormal = transform.up;
                 ContactPoint2D contact = collision.contacts[0];
 
-                if (Mathf.Abs(Vector2.Dot(contact.normal, surfaceNormal)) > 0.5f)
+                if (Vector2.Dot(contact.normal, surfaceNormal) < -0.5f) //変更
                 {
                     Vector2 incomingVelocity = collision.relativeVelocity;
                     Vector2 normalVelocity = Vector2.Dot(incomingVelocity, surfaceNormal) * surfaceNormal;
