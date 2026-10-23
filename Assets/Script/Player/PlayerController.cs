@@ -151,7 +151,15 @@ public class PlayerController : MonoBehaviour
 
         
        
-        float accelerationMultiplier = isOnSlipperyFloor ? 0.5f : 1f;
+        float accelerationMultiplier = 1f;
+
+            if (isOnSlipperyFloor &&
+                Mathf.Abs(rb.linearVelocity.x) > 0.01f &&
+                (Mathf.Approximately(moveInput, 0f) ||
+                moveInput * rb.linearVelocity.x < 0f))
+            {
+                accelerationMultiplier = 0.5f;
+            }
 
         float newVelocityX = Mathf.MoveTowards(
         rb.linearVelocity.x,
