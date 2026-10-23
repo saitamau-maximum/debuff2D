@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerShooter : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class PlayerShooter : MonoBehaviour
             Projectile projectile = bulletObj.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.SetDirection(facingDir);
+                projectile.Initialize(Vector2.right * facingDir, Projectile.TargetType.Enemy, transform);
             }
         }
         else

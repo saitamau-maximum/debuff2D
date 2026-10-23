@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7260887969358506748}
   - component: {fileID: 7328509232732854223}
   - component: {fileID: 6077216174776047893}
+  - component: {fileID: 6077216174776047894}
   - component: {fileID: 6772055726906904722}
   - component: {fileID: -3462931167138214830}
   m_Layer: 8
@@ -174,25 +175,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2678474021457613025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72b8f8f812be41c42a50ba1329f53f69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: ac2203bb63f44d57a8f26451a80fe13a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
   _initialDirection: 1
-  _moveSpeed: 2.5
-  _environmentMask:
+  _patrolSpeed: 2.5
+  _patrolHalfWidth: 3
+  _groundMask:
     serializedVersion: 2
     m_Bits: 256
-  _groundCheckDistance: 0.15
-  _canJumpOverSteps: 1
-  _stepCheckDistance: 1
-  _stepCheckHeight: 0.8
-  _jumpVelocity: 8
-  _jumpCooldown: 0.25
-  _canDropDown: 0
-  _dropCheckDistance: 0.15
-  _dropCheckDepth: 1
-  _dropCheckGraceTimeAfterJump: 0.6
-  _wallCheckDistance: 0.08
+  _wallCheckDistance: 0.2
 --- !u!114 &6772055726906904722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,8 +195,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e42feb6855278f54586fc224c4b24fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   damage: 1
 --- !u!114 &-3462931167138214830
 MonoBehaviour:
@@ -216,6 +208,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f265ee46396ae14296a7887dfefa008, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   maxHealth: 1
+--- !u!114 &6077216174776047894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2678474021457613025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4e1822146f46aca9fc4ec1fab3fc64, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  projectilePrefab: {fileID: 7596760300988821948, guid: 6855ca5114a8d83488ac0ca2eea952cc, type: 3}
+  firePoint: {fileID: 0}
+  playerTarget: {fileID: 0}
+  detectionRadius: 7
+  fireInterval: 1.5
+  damage: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
