@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7168168518546738051}
   - component: {fileID: 3757532634196720699}
   m_Layer: 0
-  m_Name: FloorDifficultySystem
+  m_Name: DebuffSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
