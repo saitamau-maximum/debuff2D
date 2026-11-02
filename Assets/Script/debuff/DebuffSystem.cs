@@ -1,14 +1,15 @@
 using UnityEngine;
-
+using System.Collections;
+using Unity.VisualScripting;
 public enum DebuffType
 {
     slow,
     jump,
     jumpCount,
     fallAccelaration,
-
-    all,//すべてのデバフを対象とする
-    DebuffTypeCount//デバフ種類数を保持するため必ず最後に置くこと.
+    DebuffTypeCount,//デバフ種類数を保持するため必ずデバフ種類の最後に置くこと.
+    all//すべてのデバフを対象とする
+    
 }
 
 [System.Serializable]
@@ -28,11 +29,13 @@ public class DebuffSystem : MonoBehaviour
     [SerializeField] private DebuffStacks manualStacks;
 
     [Header("Debuff References")]
-    [SerializeField] private SlowDebuff slowDebuff;
-    [SerializeField] private JumpDebuff jumpdebuff;
-    [SerializeField] private LimmitJump limmitJump;
-    [SerializeField] private FallAccelarate fallDebuff;
-    [SerializeField] private PlayerStatus status;
+    [SerializeField] private GameObject player;
+
+    private SlowDebuff slowDebuff;
+    private JumpDebuff jumpDebuff;
+    private LimmitJump limmitJump;
+    private FallAccelarate fallDebuff;
+    private PlayerStatus status;
     
     
     // 上に他のデバフスクリプトも追加可能
@@ -42,8 +45,14 @@ public class DebuffSystem : MonoBehaviour
     private DebuffStacks additionalStack;
     private void Start()
     {
+        additionalStack = new DebuffStacks();
+        slowDebuff = player.GetComponent<SlowDebuff>();
+        jumpDebuff = player.GetComponent<JumpDebuff>();
+        limmitJump = player.GetComponent<LimmitJump>();
+        fallDebuff = player.GetComponent<FallAccelarate>();
+        status = player.GetComponent<PlayerStatus>();
         currentFloor = ScreenManager.Instance.CurrentFloor;
-        ResetAdditonalStack(DebuffType.all);
+        InitializeAdditonalStack(DebuffType.all);
     }
 
     public void ApplyDebuffs()
@@ -57,9 +66,9 @@ public class DebuffSystem : MonoBehaviour
             slowDebuff.Apply(stacks.slow);
             slowDebuff.ChangeStatus();
         }
-        if (jumpdebuff != null){
-            jumpdebuff.Apply(stacks.jump);
-            jumpdebuff.ChangeStatus();
+        if (jumpDebuff != null){
+            jumpDebuff.Apply(stacks.jump);
+            jumpDebuff.ChangeStatus();
         }
         if (limmitJump != null){
             limmitJump.Apply(stacks.jumpCount);
@@ -70,7 +79,7 @@ public class DebuffSystem : MonoBehaviour
             fallDebuff.ChangeStatus();
         }
     }
-    public void ResetAdditonalStack(DebuffType type)
+    private void InitializeAdditonalStack(DebuffType type)
     {
         switch (type)
         {
@@ -98,8 +107,15 @@ public class DebuffSystem : MonoBehaviour
         }
         ApplyDebuffs();
     }
+    public void ResetTemporaryDebuffs()
+    {
+        StopAllCoroutines();
 
-    public void AddDebuffByOthers(int add, DebuffType type)
+        InitializeAdditonalStack(DebuffType.all);
+    }
+
+
+    private void AddStack(int add, DebuffType type)
     {
         switch (type)
         {
@@ -126,6 +142,28 @@ public class DebuffSystem : MonoBehaviour
                 break;
         }
         ApplyDebuffs();
+    }
+    public void AddTemporaryDebuff(
+    int add,
+    DebuffType type,
+    float duration)
+    {
+        StartCoroutine(
+            TemporaryDebuffCoroutine(
+                add,
+                type,
+                duration));
+    }
+    private IEnumerator TemporaryDebuffCoroutine(
+    int add,
+    DebuffType type,
+    float duration)
+    {
+        AddStack(add, type);
+
+        yield return new WaitForSeconds(duration);
+
+        AddStack(-add, type);
     }
 
     // 全デバフのスタック数を階層から生成する
