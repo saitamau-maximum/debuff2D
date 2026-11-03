@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3851753297627906158}
   - component: {fileID: 7701893732594035106}
   - component: {fileID: 692044312007363983}
-  - component: {fileID: 7270929123885575300}
   - component: {fileID: 4390672718448919732}
+  - component: {fileID: 5558787245827796}
   m_Layer: 0
   m_Name: ShoppingCart
   m_TagString: Untagged
@@ -136,22 +136,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7270929123885575300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6632041910257610200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7ed36b6a1885e48953312d7615b48b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  isMovingRight: 0
-  damage: 1
-  cooldownTime: 2
 --- !u!50 &4390672718448919732
 Rigidbody2D:
   serializedVersion: 5
@@ -179,3 +163,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5558787245827796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6632041910257610200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7ed36b6a1885e48953312d7615b48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  isMovingRight: 0
+  damage: 1
+  cooldownTime: 2
+  groundLayerName: Ground

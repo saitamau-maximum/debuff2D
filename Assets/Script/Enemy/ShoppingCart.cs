@@ -12,6 +12,9 @@ public class ShoppingCart : MonoBehaviour
     [SerializeField] private int damage = 1;
     [SerializeField] private float cooldownTime = 2.0f;
 
+    [Header("レイヤー設定")]
+    [SerializeField] private string groundLayerName = "Ground";
+
     private float currentCooldown = 0f;
     private Rigidbody2D rb;
     private BoxCollider2D col;
@@ -21,28 +24,16 @@ public class ShoppingCart : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
 
-        // プレイヤーを検索して物理的な衝突（押し出し合い）を無視
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            Collider2D playerCol = player.GetComponent<Collider2D>();
-            if (playerCol != null) Physics2D.IgnoreCollision(col, playerCol, true);
-        }
+        int groundLayer = LayerMask.NameToLayer(groundLayerName);
 
-        // 敵（Enemyタグ）を検索して物理的な衝突を無視
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
+        // シーン内の全コライダーを取得し、Ground以外のレイヤーはすべて物理衝突を無視
+        Collider2D[] allColliders = FindObjectsOfType<Collider2D>();
+        foreach (Collider2D other in allColliders)
         {
-            Collider2D enemyCol = enemy.GetComponent<Collider2D>();
-            if (enemyCol != null) Physics2D.IgnoreCollision(col, enemyCol, true);
-        }
-
-        // Bounceギミック（オレンジ色のブロック）を検索して物理的な衝突を無視
-        BounceGimmick[] bounces = FindObjectsOfType<BounceGimmick>();
-        foreach (BounceGimmick bounce in bounces)
-        {
-            Collider2D bounceCol = bounce.GetComponent<Collider2D>();
-            if (bounceCol != null) Physics2D.IgnoreCollision(col, bounceCol, true);
+            if (other != col && other.gameObject.layer != groundLayer)
+            {
+                Physics2D.IgnoreCollision(col, other, true);
+            }
         }
     }
 
@@ -58,7 +49,6 @@ public class ShoppingCart : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 物理演算を使って移動（重力を維持したまま横へ動く）
         float direction = isMovingRight ? 1f : -1f;
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
@@ -67,17 +57,14 @@ public class ShoppingCart : MonoBehaviour
     {
         if (currentCooldown > 0f) return;
 
-        // レイヤー制限などをすべて無視して、コライダーに重なっている全オブジェクトを取得
         ContactFilter2D filter = new ContactFilter2D().NoFilter();
         List<Collider2D> hits = new List<Collider2D>();
         Physics2D.OverlapCollider(col, filter, hits);
 
         foreach (var hit in hits)
         {
-            // 子オブジェクトのColliderに当たっても、親に付いているHealthを自動で取得する
             Health playerHealth = hit.GetComponentInParent<Health>();
 
-            // Healthが見つかり、かつその大元がPlayerタグを持っていればダメージ処理へ
             if (playerHealth != null && playerHealth.gameObject.CompareTag("Player"))
             {
                 if (!playerHealth.IsDead && !playerHealth.IsInvincible)
@@ -90,16 +77,22 @@ public class ShoppingCart : MonoBehaviour
         }
     }
 
-    // 物理的な衝突が発生した瞬間に呼ばれる
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 衝突したすべての接点を確認
+        int groundLayer = LayerMask.NameToLayer(groundLayerName);
+
+        // 後からスポーン・接触したオブジェクトが Ground 以外なら即座に衝突無視
+        if (collision.gameObject.layer != groundLayer)
+        {
+            Physics2D.IgnoreCollision(col, collision.collider, true);
+            return;
+        }
+
+        // Ground（壁や段差）への衝突時、横方向からのヒットなら進行方向を反転
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            // 法線（normal）のX成分を見て、横方向の衝突（壁や段差）か判定
             if (Mathf.Abs(contact.normal.x) > 0.5f)
             {
-                // 進行方向を反転させてループを抜ける
                 isMovingRight = !isMovingRight;
                 break;
             }
