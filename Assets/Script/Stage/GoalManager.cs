@@ -39,9 +39,9 @@ public class GoalManager : MonoBehaviour
         }
         handledGoal = true;
         TimerManager.Instance.StopTimer();
-        int totalScore = StageScoreCalculator.TotalScoreCalculate(ScoreManager.Instance.CoinCount, TimerManager.Instance.remainTime);
-        int coinScore = StageScoreCalculator.CoinScoreCalculate(ScoreManager.Instance.CoinCount);
+        int coinScore = ScoreManager.Instance.Score;
         int timeScore = StageScoreCalculator.TimeScoreCalcurate(TimerManager.Instance.remainTime);
+        int totalScore = coinScore + timeScore;
         ScoreManager.Instance.FinishStage();
         int? previousBestScore = null;
         bool isNewBest = false;

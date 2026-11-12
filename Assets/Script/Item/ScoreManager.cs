@@ -8,6 +8,8 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI coinText; // UIのテキスト
     private int score = 0;
+    private int scorePenalty;
+    public int Score => score;
     public int CoinCount { get; private set; }
     public bool IsFinished { get; private set; }
 
@@ -17,7 +19,6 @@ public class ScoreManager : MonoBehaviour
     {
         if (IsFinished) return;
         CoinCount++;
-        UpdateCoinText();
         AddScore();
     }
 
@@ -43,14 +44,24 @@ public class ScoreManager : MonoBehaviour
     public void AddScore()
     {
         if (IsFinished) return;
-        score = StageScoreCalculator.CoinScoreCalculate(CoinCount);
+        score = Mathf.Max(0, StageScoreCalculator.CoinScoreCalculate(CoinCount) - scorePenalty);
+        UpdateCoinText();
+    }
+
+    public void SubtractScore(int amount)
+    {
+        if (IsFinished || amount <= 0) return;
+        int deduction = Mathf.Min(score, amount);
+        scorePenalty += deduction;
+        score -= deduction;
+        UpdateCoinText();
     }
 
     private void UpdateCoinText()
     {
         if (coinText != null)
         {
-            coinText.text = "Coin: " + CoinCount;
+            coinText.text = "Coin: " + CoinCount + "  Score: " + score;
         }
     }
 }
