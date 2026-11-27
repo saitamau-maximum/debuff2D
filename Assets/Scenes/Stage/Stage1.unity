@@ -361,6 +361,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoveFloorSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value:
+      objectReference: {fileID: 4571370663537069044}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageClearUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToFloorSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 8359300899848799296, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
       propertyPath: _sceneType
       value: 4
@@ -2416,6 +2428,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: RetryButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value:
+      objectReference: {fileID: 4571370663537069044}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageClearUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421141324185209206, guid: 7909219988cd1734e9df234eca2308b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Retry
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3758,6 +3782,7 @@ MonoBehaviour:
   stageClearText: {fileID: 1365476975}
   stageClearDuration: 1
   resultPanel: {fileID: 1352729192}
+  resultDuration: 3
   totalScoreText: {fileID: 333733872}
   coinScoreText: {fileID: 593151720}
   TimeScoreText: {fileID: 1171362113}

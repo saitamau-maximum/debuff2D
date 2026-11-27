@@ -8,12 +8,14 @@ public class StageClearUI : MonoBehaviour
     [SerializeField] private GameObject stageClearText;
     [SerializeField, Min(0f)] private float stageClearDuration = 2f;
     [SerializeField] private GameObject resultPanel;
+    [SerializeField, Min(0f)] private float resultDuration = 3f;
     [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private TMP_Text coinScoreText;
     [SerializeField] private TMP_Text TimeScoreText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private TMP_Text statusText;
     private bool isShowing;
+    private bool isLeaving;
     public bool IsConfigured => resultPanel != null && totalScoreText != null && highScoreText != null
         && resultPanel != gameObject && !transform.IsChildOf(resultPanel.transform);
 
@@ -57,18 +59,23 @@ public class StageClearUI : MonoBehaviour
         }
         resultPanel.SetActive(true);
         resultPanel.transform.SetAsLastSibling();
+        yield return new WaitForSecondsRealtime(resultDuration);
+        ReturnToFloorSelect();
     }
 
     public void Retry()
     {
+        if (isLeaving) return;
+        isLeaving = true;
         Time.timeScale = 1f;
         SceneManager.LoadScene(gameObject.scene.name);
     }
 
     public void ReturnToFloorSelect()
     {
-        if (ScreenManager.Instance != null)
-            ScreenManager.Instance.ChangeScene(ScreenManager.SceneType.FloorSelect);
+        if (isLeaving || ScreenManager.Instance == null) return;
+        isLeaving = true;
+        ScreenManager.Instance.ChangeScene(ScreenManager.SceneType.FloorSelect);
     }
 
     private void OnDestroy()
