@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     // 現在乗っている移動床のX方向速度
     private float currentFloorVelocityX = 0f;
+    private bool isOnSlipperyFloor = false;
 
     //跳ねるギミックを使用済みかどうか
     public bool canBounceBoost = true;
@@ -153,12 +154,24 @@ public class PlayerController : MonoBehaviour
             acceleration = status.AirAcceleration;
         }
 
-        // 現在の横方向速度を目標速度へ近づける
+        
+       
+        float accelerationMultiplier = 1f;
+
+            if (isOnSlipperyFloor &&
+                Mathf.Abs(rb.linearVelocity.x) > 0.01f &&
+                (Mathf.Approximately(moveInput, 0f) ||
+                moveInput * rb.linearVelocity.x < 0f))
+            {
+                accelerationMultiplier = 0.5f;
+            }
+
         float newVelocityX = Mathf.MoveTowards(
-            rb.linearVelocity.x,
-            targetSpeed,
-            acceleration * Time.fixedDeltaTime
+        rb.linearVelocity.x,
+        targetSpeed,
+        acceleration * Time.fixedDeltaTime * accelerationMultiplier
         );
+
 
         rb.linearVelocity = new Vector2(
             newVelocityX,
@@ -231,14 +244,20 @@ public class PlayerController : MonoBehaviour
     }
 
     //床に接地しているかの判定
+    
     private void OnCollisionStay2D(Collision2D collision)
     {
-        // ぶつかっているオブジェクトが MoveFloor を持っているかチェック
         if (collision.gameObject.TryGetComponent<MoveFloor>(out var moveFloor))
         {
             currentFloorVelocityX = moveFloor.CurrentVelocity.x;
         }
+
+        if (collision.gameObject.TryGetComponent<SlipperyFloor>(out _))
+        {
+            isOnSlipperyFloor = true;
+        }
     }
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -246,6 +265,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.TryGetComponent<MoveFloor>(out _))
         {
             currentFloorVelocityX = 0f;
+        }
+
+        if (collision.gameObject.TryGetComponent<SlipperyFloor>(out _))
+        {
+            isOnSlipperyFloor = false;
         }
     }
 }
