@@ -28,6 +28,7 @@ public class PlayerStatus : MonoBehaviour
     public int MaxJumpCount { get; private set; }
 
     public float Gravity { get; private set; }
+    public ActiveDebuffStacks ActiveDebuffs { get; internal set; }
 
     private void Awake()
     {
@@ -39,6 +40,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void ResetToBaseValues()
     {
+        ActiveDebuffs = default;
         MoveSpeed = baseMoveSpeed;
         DashSpeed = baseDashSpeed;
         GroundAcceleration = baseGroundAcceleration;

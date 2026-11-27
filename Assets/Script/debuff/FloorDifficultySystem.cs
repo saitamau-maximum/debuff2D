@@ -8,6 +8,22 @@ public class DebuffStacks
     public int jumpCount = 2;
     public int fallAccelaration = 0;
 }
+public readonly struct ActiveDebuffStacks
+{
+    public int Slow { get; }
+    public int JumpPowerReduction { get; }
+    public int JumpCountReduction { get; }
+    public int FallAcceleration { get; }
+
+    public ActiveDebuffStacks(int slow, int jumpPowerReduction, int jumpCountReduction, int fallAcceleration)
+    {
+        Slow = slow;
+        JumpPowerReduction = jumpPowerReduction;
+        JumpCountReduction = jumpCountReduction;
+        FallAcceleration = fallAcceleration;
+    }
+}
+
 public class FloorDifficultySystem : MonoBehaviour
 {
     [Header("Floor Debuff Calculate Mode Settings")]
@@ -36,28 +52,41 @@ public class FloorDifficultySystem : MonoBehaviour
     public void ApplyDebuffs()
     {
         status.ResetToBaseValues();
+        int baseJumpCount = status.MaxJumpCount;
         DebuffStacks stacks = useAutoGenerate
             ? GenerateStacks(currentFloor)
             : manualStacks;
 
-        if (slowDebuff != null){
+        int slowStacks = 0;
+        int jumpPowerStacks = 0;
+        int fallStacks = 0;
+
+        if (slowDebuff != null)
+        {
             slowDebuff.Apply(stacks.slow);
             slowDebuff.ChangeStatus();
-            
+            slowStacks = stacks.slow;
         }
-        if (jumpdebuff != null){
+        if (jumpdebuff != null)
+        {
             jumpdebuff.Apply(stacks.jump);
             jumpdebuff.ChangeStatus();
+            jumpPowerStacks = stacks.jump;
         }
-        if (limmitJump != null){
+        if (limmitJump != null)
+        {
             limmitJump.Apply(stacks.jumpCount);
             limmitJump.ChangeStatus();
         }
-        if (fallDebuff != null){
+        if (fallDebuff != null)
+        {
             fallDebuff.Apply(stacks.fallAccelaration);
             fallDebuff.ChangeStatus();
+            fallStacks = stacks.fallAccelaration;
         }
 
+        status.ActiveDebuffs = new ActiveDebuffStacks(
+            slowStacks, jumpPowerStacks, Mathf.Max(0, baseJumpCount - status.MaxJumpCount), fallStacks);
     }
 
     // 全デバフのスタック数を階層から生成する
